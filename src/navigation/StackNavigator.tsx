@@ -1,11 +1,9 @@
 import * as React from 'react';
-import {Image, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StackParamList} from '../types/navigation';
 
 // SCREENS
-import HomeScreen from '../screens/OrderDetails';
-import LoginScreen from '../screens/OrdersList';
 import OrdersList from '../screens/OrdersList';
 import OrderDetails from '../screens/OrderDetails';
 

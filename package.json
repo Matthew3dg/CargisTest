@@ -17,6 +17,9 @@
     "mobx-react-lite": "^4.0.3",
     "react": "18.1.0",
     "react-native": "0.70.10",
+    "react-native-collapsible": "^1.6.1",
+    "react-native-safe-area-context": "^4.7.1",
+    "react-native-screens": "^3.22.1",
     "swr": "^2.2.0"
   },
   "devDependencies": {

@@ -9,10 +9,14 @@ class Order {
   }
 
   ordersList: OrderItem[] = [];
+  totalPagesCount: number = 0;
   orderDetails: {} = {};
 
   setOrdersList(list: OrderItem[]) {
     this.ordersList = list;
+  }
+  setTotalPagesCount(num: number) {
+    this.totalPagesCount = num;
   }
   setOrderDetails(details: {}) {
     this.orderDetails = details;
@@ -21,7 +25,8 @@ class Order {
   async getOrdersList(page: number) {
     try {
       const response = await getOrdersList(page);
-      this.setOrdersList(response.data.orders);
+      this.setOrdersList(this.ordersList.concat(response.data.orders));
+      this.setTotalPagesCount(response.data.total_page);
 
       console.log('getOrdersList');
       console.log(response.data);

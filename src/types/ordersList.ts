@@ -1,5 +1,7 @@
 export interface OrdersListResponse {
   orders: OrderItem[];
+  page: number;
+  total_page: number;
 }
 
 export interface OrderItem {

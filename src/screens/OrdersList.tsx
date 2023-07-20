@@ -1,11 +1,32 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React from 'react';
-import {Text, SafeAreaView, FlatList} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Text, SafeAreaView, FlatList, ScrollView} from 'react-native';
 import {StackParamList} from '../types/navigation';
 import {observer} from 'mobx-react-lite';
 import s from '../styles/index';
 import orders from '../store/orders';
 import {OrderItem} from '../types/ordersList';
+import CollapsibleOrderItem from '../components/CollapsibleOrderItem';
+import SearchLabel from '../components/SearchLabel';
+
+const mockSearchLabels = [
+  {
+    id: 'all',
+    title: 'Все',
+  },
+  {
+    id: 'active',
+    title: 'Активные',
+  },
+  {
+    id: 'on_pause',
+    title: 'На паузе',
+  },
+  {
+    id: 'completed',
+    title: 'Завершенные',
+  },
+];
 
 const OrdersList = ({
   navigation,
@@ -14,25 +35,85 @@ const OrdersList = ({
     item: OrderItem;
     index: number;
   };
+  const [activeCategoryId, setActiveCategoryId] = useState('all');
+  const [currentPage, setCurrentPage] = useState(0);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+
+  const changeCurrentPage = () => {
+    if (currentPage === orders.totalPagesCount) {
+      return;
+    } else {
+      console.log('loadMoreOrders');
+      setCurrentPage(prev => ++prev);
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage <= orders.totalPagesCount) {
+      console.log('useEffect loader');
+      setRefreshing(true);
+      orders.getOrdersList(currentPage).finally(() => setRefreshing(false));
+    }
+  }, [currentPage]);
 
   const renderOrder = ({item, index}: RenderOrdersProps) => (
-    <Text style={{color: '#000'}}>Order {item.id}</Text>
+    <CollapsibleOrderItem
+      id={item.id}
+      order_number={item.order_number}
+      views_count={item.views_count}
+      create_dt={item.create_dt}
+      load_dt={item.load_dt}
+      ending_dt={item.ending_dt}
+      loading_address={item.loading_address}
+      unloading_address={item.unloading_address}
+      distance_m={item.distance_m}
+      cargo_type={item.cargo_type}
+      tonnage_balance_kg={item.tonnage_balance_kg}
+      tonnage_kg={item.tonnage_kg}
+      tariff_c={item.tariff_c}
+      tariff_nds_c={item.tariff_nds_c}
+      status_1c={item.status_1c}
+      companyName={item.company.short_name}
+    />
   );
 
   return (
     <SafeAreaView style={s.wrapper}>
+      <Text style={s.title}>Заявки на перевозки</Text>
+      <ScrollView
+        style={{flexGrow: 0}}
+        contentContainerStyle={{paddingLeft: 16, paddingVertical: 16}}
+        horizontal
+        showsHorizontalScrollIndicator={false}>
+        {mockSearchLabels.map((category, index) => {
+          return (
+            <SearchLabel
+              key={category.id}
+              label={category.title}
+              setActive={() => setActiveCategoryId(category.id)}
+              isActive={category.id === activeCategoryId}
+              onPress={() => {
+                console.warn('TODO change category request');
+                if (category.id === 'all') {
+                  //   request all categories
+                } else {
+                  //   request current category
+                }
+              }}
+            />
+          );
+        })}
+      </ScrollView>
       <FlatList
+        style={s.listContainer}
         data={orders.ordersList}
         renderItem={renderOrder}
-        // keyExtractor={item => item.id.toString()}
-        // ListHeaderComponent={renderHeader}
-        // ListFooterComponent={renderFooter}
+        keyExtractor={item => item.id.toString()}
         // onRefresh={}
-        // refreshing={}
+        refreshing={refreshing}
+        onEndReached={changeCurrentPage}
+        onEndReachedThreshold={0.3}
       />
-      <Text onPress={() => navigation.navigate('OrderDetails')}>
-        OrdersList
-      </Text>
     </SafeAreaView>
   );
 };

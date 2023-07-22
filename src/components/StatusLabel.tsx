@@ -6,24 +6,20 @@ type StatusLabelProps = {
 };
 
 const StatusLabel = ({label}: StatusLabelProps) => {
-  return <Text style={styles.primary}>{label}</Text>;
+  return <Text style={styles.label}>{label}</Text>;
 };
 
 const styles = StyleSheet.create({
   label: {
+    color: '#0C48A1',
+    fontFamily: 'Inter',
+    fontSize: 11,
+    fontStyle: 'normal',
+    fontWeight: '500',
+    lineHeight: 16,
     backgroundColor: '#E6EEF8',
-    color: '#296267',
-    alignSelf: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    borderRadius: 100,
-    fontFamily: 'Lato-Regular',
-    fontSize: 12,
-    lineHeight: 15,
-  },
-  primary: {
-    backgroundColor: '#296267',
-    color: '#fff',
+    borderRadius: 16,
+    paddingHorizontal: 8,
   },
 });
 

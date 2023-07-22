@@ -1,14 +1,19 @@
 import React from 'react';
-import {StyleSheet, Text, TextStyle, View} from 'react-native';
+import {StyleSheet, Text, TextStyle, View, ViewStyle} from 'react-native';
 
 type TitleContentWrapperProps = {
   label: string;
   children: React.JSX.Element;
+  containerStyles?: ViewStyle;
 };
 
-const TitleContentWrapper = ({label, children}: TitleContentWrapperProps) => {
+const TitleContentWrapper = ({
+  label,
+  children,
+  containerStyles,
+}: TitleContentWrapperProps) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyles]}>
       <Text style={styles.label}>{label}</Text>
       {children}
     </View>
@@ -20,6 +25,7 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#F7F7F7',
     borderRadius: 5,
+    marginBottom: 8,
   },
 
   label: {

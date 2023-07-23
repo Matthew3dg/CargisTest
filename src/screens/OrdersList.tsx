@@ -70,14 +70,6 @@ const OrdersList = ({
     }
   }, [data]);
 
-  // useEffect(() => {
-  //   if (currentPage <= orders.totalPagesCount) {
-  //     console.log('useEffect loader');
-  //     setRefreshing(true);
-  //     orders.getOrdersList(currentPage).finally(() => setRefreshing(false));
-  //   }
-  // }, [currentPage]);
-
   const renderOrder = ({item, index}: RenderOrdersProps) => (
     <CollapsibleOrderItem
       id={item.id}

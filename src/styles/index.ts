@@ -24,7 +24,32 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     backgroundColor: '#F7F7F7',
   },
-
+  tabsRow: {
+    flexDirection: 'row',
+    paddingHorizontal: 24,
+  },
+  tabContainer: {
+    width: '50%',
+    // flex: 1,
+  },
+  tabText: {
+    color: '#637A86',
+    textAlign: 'center',
+    fontFamily: 'Inter',
+    fontSize: 13,
+    fontStyle: 'normal',
+    fontWeight: '600',
+    lineHeight: 16,
+    paddingVertical: 10,
+  },
+  tabActiveText: {
+    color: '#0C48A1',
+  },
+  activeTabUnderline: {
+    height: 2,
+    width: '100%',
+    backgroundColor: '#0C48A1',
+  },
   // ORDER DETAILS
 });
 

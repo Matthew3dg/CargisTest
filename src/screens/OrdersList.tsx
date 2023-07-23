@@ -1,6 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useEffect, useState} from 'react';
-import {Text, SafeAreaView, FlatList, ScrollView} from 'react-native';
+import {Text, SafeAreaView, FlatList, ScrollView, View} from 'react-native';
 import {StackParamList} from '../types/navigation';
 import {observer} from 'mobx-react-lite';
 import s from '../styles/index';
@@ -47,6 +47,10 @@ const OrdersList = ({
       setCurrentPage(prev => ++prev);
     }
   };
+  const reloadOrdersList = () => {
+    setRefreshing(true);
+    orders.getOrdersList().finally(() => setRefreshing(false));
+  };
 
   useEffect(() => {
     if (currentPage <= orders.totalPagesCount) {
@@ -80,6 +84,15 @@ const OrdersList = ({
   return (
     <SafeAreaView style={s.wrapper}>
       <Text style={s.title}>Заявки на перевозки</Text>
+      <View style={s.tabsRow}>
+        <View style={s.tabContainer}>
+          <Text style={s.tabText}>Карта</Text>
+        </View>
+        <View style={s.tabContainer}>
+          <Text style={[s.tabText, s.tabActiveText]}>Список</Text>
+          <View style={s.activeTabUnderline}></View>
+        </View>
+      </View>
       <ScrollView
         style={{flexGrow: 0}}
         contentContainerStyle={{paddingLeft: 16, paddingVertical: 16}}
@@ -109,7 +122,7 @@ const OrdersList = ({
         data={orders.ordersList}
         renderItem={renderOrder}
         keyExtractor={item => item.id.toString()}
-        // onRefresh={}
+        onRefresh={reloadOrdersList}
         refreshing={refreshing}
         onEndReached={changeCurrentPage}
         onEndReachedThreshold={0.3}

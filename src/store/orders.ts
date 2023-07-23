@@ -22,10 +22,17 @@ class Order {
     this.orderDetails = details;
   }
 
-  async getOrdersList(page: number) {
+  async getOrdersList(page: number = 0) {
     try {
       const response = await getOrdersList(page);
-      this.setOrdersList(this.ordersList.concat(response.data.orders));
+
+      if (page > 0) {
+        response.data.orders &&
+          this.setOrdersList(this.ordersList.concat(response.data.orders));
+      } else {
+        response.data.orders && this.setOrdersList(response.data.orders);
+      }
+
       this.setTotalPagesCount(response.data.total_page);
 
       console.log('getOrdersList');

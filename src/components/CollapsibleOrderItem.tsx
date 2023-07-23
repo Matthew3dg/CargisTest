@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  Alert,
   Image,
   Pressable,
   StyleSheet,
@@ -21,6 +22,7 @@ import to from '../assets/images/to.png';
 import eye from '../assets/images/eye.png';
 import StatusLabel from './StatusLabel';
 import MainButton from './MainButton';
+import orders from '../store/orders';
 
 interface CollapsibleOrderItemProps {
   id: number;
@@ -60,6 +62,10 @@ const CollapsibleOrderItem = ({
   views_count,
 }: CollapsibleOrderItemProps): JSX.Element => {
   const [isCollapsed, setIsCollapsed] = useState(true);
+
+  const onDetailsPress = (id: number) => {
+    orders.getOrderDetails(id);
+  };
 
   return (
     <View style={styles.container}>
@@ -177,16 +183,14 @@ const CollapsibleOrderItem = ({
             extraStyle={{marginRight: 4}}
             text="Подробнее"
             type="secondary"
-            onPress={function (): void {
-              throw new Error('Function not implemented.');
-            }}
+            onPress={() => onDetailsPress(id)}
           />
           <MainButton
             extraStyle={{marginLeft: 4}}
             type="default"
             text="Оставить отклик"
-            onPress={function (): void {
-              throw new Error('Function not implemented.');
+            onPress={() => {
+              Alert.alert('Отклик оставлен', 'TODO');
             }}
           />
         </View>

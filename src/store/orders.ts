@@ -2,6 +2,7 @@ import {makeAutoObservable} from 'mobx';
 import {getOrderDetails, getOrdersList} from '../services/OrdersService';
 import {Alert} from 'react-native';
 import {OrderItem} from '../types/ordersList';
+import {OrderDetails} from '../types/orderDetails';
 
 class Order {
   constructor() {
@@ -10,7 +11,7 @@ class Order {
 
   ordersList: OrderItem[] = [];
   totalPagesCount: number = 0;
-  orderDetails: {} = {};
+  orderDetails: OrderDetails = {} as OrderDetails;
 
   setOrdersList(list: OrderItem[]) {
     this.ordersList = list;
@@ -18,7 +19,7 @@ class Order {
   setTotalPagesCount(num: number) {
     this.totalPagesCount = num;
   }
-  setOrderDetails(details: {}) {
+  setOrderDetails(details: OrderDetails) {
     this.orderDetails = details;
   }
 

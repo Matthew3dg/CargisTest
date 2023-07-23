@@ -71,8 +71,7 @@ const OrdersList = ({
   }, [data]);
 
   const onDetailsPress = (id: number) => {
-    navigation.navigate('OrderDetails');
-    orders.getOrderDetails(id);
+    orders.getOrderDetails(id).then(() => navigation.navigate('OrderDetails'));
   };
 
   const renderOrder = ({item, index}: RenderOrdersProps) => (
@@ -102,6 +101,7 @@ const OrdersList = ({
       <Text style={s.title}>Заявки на перевозки</Text>
       <View style={s.tabsRow}>
         <View style={s.tabContainer}>
+          {/* TODO move to separate component */}
           <Text style={s.tabText}>Карта</Text>
         </View>
         <View style={s.tabContainer}>

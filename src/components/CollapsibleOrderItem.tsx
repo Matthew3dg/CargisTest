@@ -41,6 +41,7 @@ interface CollapsibleOrderItemProps {
   tariff_nds_c: number;
   status_1c: string;
   companyName: string;
+  onPress: (id: number) => void;
 }
 
 const CollapsibleOrderItem = ({
@@ -60,6 +61,7 @@ const CollapsibleOrderItem = ({
   tonnage_kg,
   unloading_address,
   views_count,
+  onPress,
 }: CollapsibleOrderItemProps): JSX.Element => {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
@@ -183,7 +185,7 @@ const CollapsibleOrderItem = ({
             extraStyle={{marginRight: 4}}
             text="Подробнее"
             type="secondary"
-            onPress={() => onDetailsPress(id)}
+            onPress={() => onPress(id)}
           />
           <MainButton
             extraStyle={{marginLeft: 4}}

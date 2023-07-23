@@ -70,6 +70,11 @@ const OrdersList = ({
     }
   }, [data]);
 
+  const onDetailsPress = (id: number) => {
+    navigation.navigate('OrderDetails');
+    orders.getOrderDetails(id);
+  };
+
   const renderOrder = ({item, index}: RenderOrdersProps) => (
     <CollapsibleOrderItem
       id={item.id}
@@ -88,6 +93,7 @@ const OrdersList = ({
       tariff_nds_c={item.tariff_nds_c}
       status_1c={item.status_1c}
       companyName={item.company.short_name}
+      onPress={onDetailsPress}
     />
   );
 

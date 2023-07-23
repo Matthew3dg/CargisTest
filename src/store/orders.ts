@@ -22,21 +22,16 @@ class Order {
     this.orderDetails = details;
   }
 
-  async getOrdersList(page: number = 0) {
+  async getOrdersList(page: string) {
     try {
       const response = await getOrdersList(page);
-
-      if (page > 0) {
-        response.data.orders &&
-          this.setOrdersList(this.ordersList.concat(response.data.orders));
-      } else {
-        response.data.orders && this.setOrdersList(response.data.orders);
-      }
 
       this.setTotalPagesCount(response.data.total_page);
 
       console.log('getOrdersList');
       console.log(response.data);
+
+      return response.data.orders;
     } catch (error) {
       Alert.alert('Ошибка списка заявок', 'Пожалуйста попробуйте снова');
     }

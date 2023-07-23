@@ -4,7 +4,7 @@ import {OrdersListResponse} from '../types/ordersList';
 import {OrderDetails} from '../types/orderDetails';
 
 export const getOrdersList = async (
-  page: number,
+  page: string,
 ): Promise<AxiosResponse<OrdersListResponse>> => {
   // TODO make all parameters "live"
   return api.get(

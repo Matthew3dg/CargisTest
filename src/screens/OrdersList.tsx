@@ -8,6 +8,7 @@ import orders from '../store/orders';
 import {OrderItem} from '../types/ordersList';
 import CollapsibleOrderItem from '../components/CollapsibleOrderItem';
 import SearchLabel from '../components/SearchLabel';
+import useSWR from 'swr';
 
 const mockSearchLabels = [
   {
@@ -37,7 +38,16 @@ const OrdersList = ({
   };
   const [activeCategoryId, setActiveCategoryId] = useState('all');
   const [currentPage, setCurrentPage] = useState(0);
-  const [refreshing, setRefreshing] = useState<boolean>(false);
+
+  const getList = async (page: string) => {
+    console.log('getList loader func');
+    return await orders.getOrdersList(page);
+  };
+
+  const {data, error, isLoading, mutate} = useSWR(
+    currentPage.toString(),
+    getList,
+  );
 
   const changeCurrentPage = () => {
     if (currentPage === orders.totalPagesCount) {
@@ -48,17 +58,25 @@ const OrdersList = ({
     }
   };
   const reloadOrdersList = () => {
-    setRefreshing(true);
-    orders.getOrdersList().finally(() => setRefreshing(false));
+    mutate([], ...[]);
+    setCurrentPage(0);
   };
 
   useEffect(() => {
-    if (currentPage <= orders.totalPagesCount) {
-      console.log('useEffect loader');
-      setRefreshing(true);
-      orders.getOrdersList(currentPage).finally(() => setRefreshing(false));
+    if (currentPage > 0) {
+      data && orders.setOrdersList(orders.ordersList.concat(data));
+    } else {
+      data && orders.setOrdersList(data);
     }
-  }, [currentPage]);
+  }, [data]);
+
+  // useEffect(() => {
+  //   if (currentPage <= orders.totalPagesCount) {
+  //     console.log('useEffect loader');
+  //     setRefreshing(true);
+  //     orders.getOrdersList(currentPage).finally(() => setRefreshing(false));
+  //   }
+  // }, [currentPage]);
 
   const renderOrder = ({item, index}: RenderOrdersProps) => (
     <CollapsibleOrderItem
@@ -123,7 +141,7 @@ const OrdersList = ({
         renderItem={renderOrder}
         keyExtractor={item => item.id.toString()}
         onRefresh={reloadOrdersList}
-        refreshing={refreshing}
+        refreshing={isLoading}
         onEndReached={changeCurrentPage}
         onEndReachedThreshold={0.3}
       />

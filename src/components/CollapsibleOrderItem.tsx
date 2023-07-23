@@ -23,6 +23,7 @@ import eye from '../assets/images/eye.png';
 import StatusLabel from './StatusLabel';
 import MainButton from './MainButton';
 import orders from '../store/orders';
+import {convertStatus} from '../services/helpers';
 
 interface CollapsibleOrderItemProps {
   id: number;
@@ -78,7 +79,7 @@ const CollapsibleOrderItem = ({
           <View style={styles.headerRow}>
             <View style={styles.titleStatusRow}>
               <Text style={styles.headerText}>Заявка №{order_number}</Text>
-              <StatusLabel label={status_1c} />
+              <StatusLabel label={convertStatus(status_1c)} />
             </View>
 
             <Image style={styles.arrowIcon} source={isCollapsed ? down : up} />

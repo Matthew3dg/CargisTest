@@ -27,6 +27,7 @@ import MainButton from '../components/MainButton';
 import {StackParamList} from '../types/navigation';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import CollapsibleInfoContainer from '../components/CollapsibleInfoContainer';
+import {convertStatus} from '../services/helpers';
 
 const OrderDetails = ({
   navigation,
@@ -47,9 +48,11 @@ const OrderDetails = ({
           <View style={s.headerRow}>
             <View style={s.titleStatusRow}>
               <Text style={s.headerText}>
-                Заявка №{orders.orderDetails.order_number}
+                Заявка №{orders.orderDetails.order_number ?? '- - -'}
               </Text>
-              <StatusLabel label={orders.orderDetails.status_1c} />
+              <StatusLabel
+                label={convertStatus(orders.orderDetails.status_1c)}
+              />
             </View>
           </View>
           <View style={s.headerInfoRow}>
